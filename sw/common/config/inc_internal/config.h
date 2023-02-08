@@ -10,12 +10,12 @@ namespace rebootbot
 {
     namespace config
     {
-        class Config : public ConfigIf
+        class ConfigIf::Config
         {
             public:
-            Config(const std::ifstream& configFile);
+            Config(std::ifstream& configFile);
 
-            ConfigValue getConfigValue(const std::string& configId) const override;
+            ConfigValue getConfigValue(const std::string& configId) const;
 
             protected:
 

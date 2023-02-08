@@ -12,8 +12,13 @@ namespace rebootbot
         const ConfigValue ConfigIf::INVALID_CONFIG_VALUE = "INVALID_CONFIG_VALUE";
 
         /* "The rest" */
-        ConfigIf::ConfigIf(const std::ifstream& configFile) : m_ConfigImpl {std::make_unique<Config>(configFile)}
+        ConfigIf::ConfigIf(std::ifstream& configFile) : m_ConfigImpl {std::make_unique<Config>(configFile)}
         {
+        }
+
+        ConfigIf::~ConfigIf()
+        {
+            m_ConfigImpl = nullptr;
         }
 
         ConfigValue ConfigIf::getConfigValue(const std::string& configId) const
