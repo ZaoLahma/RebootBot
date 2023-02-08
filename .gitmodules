@@ -1,0 +1,3 @@
+[submodule "sw/external/zlog"]
+	path = sw/external/zlog
+	url = git@github.com:ZaoLahma/zlog.git
