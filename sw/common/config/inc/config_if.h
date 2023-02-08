@@ -10,7 +10,7 @@ namespace rebootbot
 {
     namespace config
     {
-        using ConfigValue = std::variant<uint32_t, int32_t, std::string>;
+        using ConfigValue = std::variant<int32_t, std::string>;
 
         class ConfigIf
         {

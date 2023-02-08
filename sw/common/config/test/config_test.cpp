@@ -15,9 +15,10 @@ class ConfigTest : public ::testing::Test
     virtual void SetUp()
     {
         std::ofstream configFile(CONFIG_PATH);
-        configFile<<"key={type, value}"<<std::endl; /* Good pattern? */
+        configFile<<"anIntTestKey={integer, 32}"<<std::endl;
         configFile<<"#I am a comment"<<std::endl;
         configFile<<"#   I am also a comment"<<std::endl;
+        configFile<<"aStringTestKey={string, SomeValueHere}"<<std::endl;
     }
 
     virtual void TearDown()
@@ -30,4 +31,18 @@ TEST_F(ConfigTest, TestInstantiateConfig)
 {
     auto configFile {std::ifstream(CONFIG_PATH)};
     rebootbot::config::ConfigIf configIf(configFile);
+}
+
+TEST_F(ConfigTest, TestGetValue)
+{
+    auto configFile {std::ifstream(CONFIG_PATH)};
+    rebootbot::config::ConfigIf configIf(configFile);
+
+    auto intValue = configIf.getConfigValue("anIntTestKey");
+    auto stringValue = configIf.getConfigValue("aStringTestKey");
+    auto invalidValue = configIf.getConfigValue("aNonExistingKey");
+
+    EXPECT_EQ(32, std::get<int32_t>(intValue));
+    EXPECT_EQ("SomeValueHere", std::get<std::string>(stringValue));
+    EXPECT_EQ(rebootbot::config::ConfigIf::INVALID_CONFIG_VALUE, invalidValue);
 }

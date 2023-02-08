@@ -1,9 +1,9 @@
 #include "config.h"
 #include "config_if.h"
+#include "config_value_types_enum.h"
 
 #include <fstream>
 #include <string>
-#include <iostream>
 #include <regex>
 
 namespace rebootbot
@@ -26,14 +26,22 @@ namespace rebootbot
                     if (regexMatch.size() == 4u)
                     {
                         const std::string key = regexMatch[1u];
-                        const std::string type = regexMatch[2u];
-                        const std::string value = regexMatch[3u];
+                        const std::string typeStr = regexMatch[2u];
+                        const std::string valueStr = regexMatch[3u];
 
-                        std::cout<<key<<std::endl;
-                        std::cout<<type<<std::endl;
-                        std::cout<<value<<std::endl;
+                        ConfigValueTypesEnum type = ConfigValueStringUtils::fromString(typeStr);
 
-                        /* TODO Parse the extracted config payload (type & value) and insert at m_ConfigValues[key] */
+                        switch (type)
+                        {
+                            case ConfigValueTypesEnum::STRING:
+                            m_ConfigValues[key] = valueStr;
+                            break;
+                            case ConfigValueTypesEnum::INTEGER:
+                            m_ConfigValues[key] = std::stoi(valueStr);
+                            break;
+                            default:
+                            break;
+                        }
                     }
                 }
             }
