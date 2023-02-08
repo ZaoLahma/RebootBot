@@ -13,7 +13,7 @@ namespace rebootbot
         ConfigIf::Config::Config(std::ifstream& configFile)
         {
             /* Match pattern key={type, value} */
-            std::regex configRegex {"(\\w+)\\s*=\\s*\\{(\\w+),\\s*(\\w+)\\}\\s*"};
+            std::regex configRegex {"(\\w+)\\s*=\\s*\\{(\\w+),\\s*(.*)\\}\\s*"};
 
             std::string line;
             while (std::getline(configFile, line))
