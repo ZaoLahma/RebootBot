@@ -1,6 +1,7 @@
 #include "config.h"
 #include "config_if.h"
 #include "config_value_types_enum.h"
+#include "log.h"
 
 #include <fstream>
 #include <string>
@@ -40,8 +41,13 @@ namespace rebootbot
                             m_ConfigValues[key] = std::stoi(valueStr);
                             break;
                             default:
+                            LOG_ERROR("Not handled enum type: %u", type);
                             break;
                         }
+                    }
+                    else
+                    {
+                        LOG_DEBUG("No match for string %s", line);
                     }
                 }
             }
@@ -53,6 +59,8 @@ namespace rebootbot
             {
                 return m_ConfigValues.at(configId);
             }
+
+            LOG_DEBUG("Failed to get config value for id %s", configId.c_str());
 
             return ConfigIf::INVALID_CONFIG_VALUE;
         }

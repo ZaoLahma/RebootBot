@@ -16,6 +16,11 @@ target_include_directories(scheduler
     ${CMAKE_CURRENT_LIST_DIR}/inc_internal
 )
 
+target_link_libraries(scheduler
+    PUBLIC
+    logging
+)
+
 set_target_properties(scheduler PROPERTIES LINKER_LANGUAGE CXX)
 
 add_executable(test_scheduler
